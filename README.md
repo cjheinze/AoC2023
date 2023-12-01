@@ -1,3 +1,3 @@
-# AoC2022
+# AoC2023
 
-A description of this package.
+Swift solutions to Advent of Code 2023
