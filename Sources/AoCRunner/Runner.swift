@@ -10,7 +10,7 @@ import Days
 import Helper
 @main
 struct Runner {
-    static let day: DayProtocol = Day1()
+    static let day: DayProtocol = Day2()
     static func main() {
         let partOne = day.partOne()
         print("Part one solution:", partOne)
