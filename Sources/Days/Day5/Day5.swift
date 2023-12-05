@@ -25,15 +25,13 @@ public class Day5: DayProtocol {
     public init() {
         input = FileHandler.getInputs(for: Bundle.module.resourcePath!, andDay: 5)
         let groups = input.split(separator: "\n\n").map(String.init)
-        print(groups)
+
         seeds = groups[0].split(separator: " ").dropFirst().map { Int($0)! }
-        let titleRegex = #/(?<source>\w+?)-to-(?<destination>\w+) map:/#
+
         let mapRegex = #/(?<destinationStart>\d+?) (?<sourceStart>\d+) (?<rangeLength>\d+)/#
         maps = groups.dropFirst().map { mapString in
             let rows = mapString.split(separator: "\n")
-            let mapSearch = try! titleRegex.wholeMatch(in: rows[0])!
-            let source = mapSearch.source
-            let destination = mapSearch.destination
+            let source = rows[0]
             let map = rows.dropFirst().map { row in
                 let values = try! mapRegex.wholeMatch(in: row)!
                 let destinationStart = Int(values.destinationStart)!
@@ -44,8 +42,6 @@ public class Day5: DayProtocol {
             }
             return AlmanacMap(name: String(source), map: map)
         }
-
-        print(maps)
     }
 
     fileprivate func locationForSeed(_ seed: Int) -> Int? {
@@ -76,5 +72,25 @@ public class Day5: DayProtocol {
         return String(locations.min()!)
     }
     
-
+    public func partTwoAsync() async -> String {
+        let seedRanges = seeds.chunks(ofCount: 2).map { $0.first!..<($0.first! + $0.last!) }
+        let asyncLocations = await withTaskGroup(of: [Int].self) { group in
+            for seedRange in seedRanges {
+                group.addTask {
+                    seedRange.compactMap { seed in
+                        self.locationForSeed(seed)
+                    }
+                }
+            }
+            
+            var results = [Int]()
+            for await list in group {
+                results.append(contentsOf: list)
+            }
+            return results
+        }
+        
+        return String(asyncLocations.min()!)
+    }
+    
 }
