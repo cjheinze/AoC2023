@@ -10,7 +10,7 @@ import Days
 import Helper
 @main
 struct Runner {
-    static let day: DayProtocol = Day5()
+    static let day: DayProtocol = Day6()
     
     static func main() async {
         let numberFormatter = NumberFormatter()
