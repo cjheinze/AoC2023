@@ -10,11 +10,10 @@ import Days
 import Helper
 @main
 struct Runner {
-    static let day: DayProtocol = Day6()
     
     static func main() async {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.maximumSignificantDigits = 2
+
+        let day: DayProtocol = Day7()
         
         let startPartOne = Date()
         print("Start part one")
