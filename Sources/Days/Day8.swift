@@ -34,7 +34,7 @@ public class Day8: DayProtocol {
     public func partOne() -> String {
         let start = "AAA"
         let finish = "ZZZ"
-        var stepsTaken = countSteps(start, startSuffix: start, finishSuffix: finish)
+        let stepsTaken = countSteps(start, startSuffix: start, finishSuffix: finish)
         return String(stepsTaken)
     }
     
